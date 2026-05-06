@@ -48,3 +48,42 @@ def get_stress_label(score: float) -> tuple:
     elif score <= 65:
         return 'Modéré', 'orange'
     return 'Élevé', 'red'
+
+
+def build_field_cards(df: pd.DataFrame) -> list:
+    if df.empty:
+        return [
+            {'sensor_id': sid, 'name': name, 'emoji': emoji, 'no_data': True}
+            for sid, (name, emoji) in SENSOR_NAMES.items()
+        ]
+
+    cards = []
+    for sensor_id, (name, emoji) in SENSOR_NAMES.items():
+        field_df = df[df['sensor_id'] == sensor_id]
+        if field_df.empty:
+            cards.append({'sensor_id': sensor_id, 'name': name, 'emoji': emoji, 'no_data': True})
+            continue
+
+        last = field_df.sort_values('timestamp').iloc[-1]
+        alerts_flat = [a for row in field_df['alerts'] for a in (row if isinstance(row, list) else [])]
+
+        if alerts_flat:
+            status, color = 'Alerte', 'red'
+        elif 'stress_score' in field_df.columns and float(last['stress_score']) > 65:
+            status, color = 'Attention', 'orange'
+        else:
+            status, color = 'Sain', 'green'
+
+        cards.append({
+            'sensor_id': sensor_id,
+            'name': name,
+            'emoji': emoji,
+            'no_data': False,
+            'temp': round(float(field_df['temperature_c'].mean()), 1),
+            'humidity': round(float(field_df['humidity_pct'].mean()), 1),
+            'stage': STAGE_LABELS.get(str(last.get('plant_stage', 'inconnu')), 'Phase inconnue'),
+            'status': status,
+            'status_color': color,
+            'alerts': list({humanize_alert(a) for a in alerts_flat}),
+        })
+    return cards
