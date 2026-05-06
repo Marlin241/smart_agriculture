@@ -135,6 +135,55 @@ def _trend(today_val, yesterday_val, higher_is_worse=True) -> tuple:
     return ('↑', 'green') if going_up else ('↓', 'red')
 
 
+def _s3_client():
+    endpoint = os.environ.get('MINIO_ENDPOINT', 'http://minio:9000')
+    return boto3.client(
+        's3',
+        endpoint_url=endpoint,
+        aws_access_key_id=os.environ.get('MINIO_ACCESS_KEY', 'minioadmin'),
+        aws_secret_access_key=os.environ.get('MINIO_SECRET_KEY', 'minioadmin'),
+    )
+
+
+def load_parquet_last_24h() -> pd.DataFrame:
+    s3 = _s3_client()
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=24)
+    try:
+        objects = s3.list_objects_v2(Bucket='smart-farm-clean').get('Contents', [])
+    except Exception:
+        return pd.DataFrame()
+
+    frames = []
+    for obj in objects:
+        if obj['LastModified'].replace(tzinfo=timezone.utc) < cutoff:
+            continue
+        try:
+            body = s3.get_object(Bucket='smart-farm-clean', Key=obj['Key'])['Body'].read()
+            frames.append(pd.read_parquet(io.BytesIO(body)))
+        except Exception:
+            continue
+
+    if not frames:
+        return pd.DataFrame()
+
+    df = pd.concat(frames, ignore_index=True)
+    if 'alerts' not in df.columns:
+        df['alerts'] = [[] for _ in range(len(df))]
+    else:
+        df['alerts'] = df['alerts'].apply(lambda x: x if isinstance(x, list) else [])
+    return df
+
+
+def load_report(date_str: str) -> Optional[dict]:
+    s3 = _s3_client()
+    key = f"report_{date_str}.json"
+    try:
+        body = s3.get_object(Bucket='smart-farm-reports', Key=key)['Body'].read()
+        return json.loads(body)
+    except Exception:
+        return None
+
+
 def build_report_table(today: dict, yesterday: Optional[dict]) -> list:
     rows = []
     for sensor_id, (name, emoji) in SENSOR_NAMES.items():
