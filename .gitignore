@@ -1,2 +1,9 @@
 .superpowers
 .venv
+.env
+.claude/
+__pycache__/
+*.pyc
+*.swp
+.pytest_cache/
+airflow/logs/

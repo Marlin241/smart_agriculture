@@ -234,7 +234,7 @@ while robot.step(timestep) != -1:
     # ── 7. Payload capteurs bruts (IPC supervisor + Kafka) ────────────────────
     payload = {
         'sensor_id':             f"field_{fid}_{p['culture'].lower()}",
-        'timestamp':             datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'timestamp':             datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         'field_id':              fid,
         'culture':               p['culture'],
         'temperature_c':         round(state['temp'], 2),
@@ -253,10 +253,8 @@ while robot.step(timestep) != -1:
         'harvest_count':         harvest_count,
     }
     try:
-        tmp = FIELD_FILE + '.tmp'
-        with open(tmp, 'w') as f:
+        with open(FIELD_FILE, 'w') as f:
             json.dump(payload, f)
-        os.replace(tmp, FIELD_FILE)
     except Exception as e:
         print(f"[{p['culture']} #{fid}] Erreur ecriture: {e}")
 
