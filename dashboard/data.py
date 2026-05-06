@@ -87,3 +87,79 @@ def build_field_cards(df: pd.DataFrame) -> list:
             'alerts': list({humanize_alert(a) for a in alerts_flat}),
         })
     return cards
+
+
+def build_detail(df: pd.DataFrame, sensor_id: str) -> dict:
+    if df.empty or sensor_id not in df['sensor_id'].values:
+        return {}
+
+    field_df = df[df['sensor_id'] == sensor_id].sort_values('timestamp')
+    alerts_flat = [a for row in field_df['alerts'] for a in (row if isinstance(row, list) else [])]
+    alert_counts = {}
+    for a in alerts_flat:
+        label = humanize_alert(a)
+        alert_counts[label] = alert_counts.get(label, 0) + 1
+
+    last = field_df.iloc[-1]
+    stress = float(last['stress_score']) if 'stress_score' in field_df.columns else 0.0
+    stress_label, stress_color = get_stress_label(stress)
+
+    def safe_mean(col):
+        if col in field_df.columns:
+            return round(float(field_df[col].mean()), 1)
+        return 0.0
+
+    return {
+        'timestamps': field_df['timestamp'].tolist(),
+        'temperatures': field_df['temperature_c'].tolist(),
+        'humidities': field_df['humidity_pct'].tolist(),
+        'nitrogen': safe_mean('soil_nitrogen_mg_kg'),
+        'phosphorus': safe_mean('soil_phosphorus_mg_kg'),
+        'potassium': safe_mean('soil_potassium_mg_kg'),
+        'alert_counts': alert_counts,
+        'stress_score': round(stress, 1),
+        'stress_label': stress_label,
+        'stress_color': stress_color,
+    }
+
+
+def _trend(today_val, yesterday_val, higher_is_worse=True) -> tuple:
+    if yesterday_val is None or yesterday_val == 0:
+        return '~', 'gray'
+    pct = (today_val - yesterday_val) / abs(yesterday_val) * 100
+    if abs(pct) < 5:
+        return '~', 'gray'
+    going_up = pct > 0
+    if higher_is_worse:
+        return ('↑', 'red') if going_up else ('↓', 'green')
+    return ('↑', 'green') if going_up else ('↓', 'red')
+
+
+def build_report_table(today: dict, yesterday: Optional[dict]) -> list:
+    rows = []
+    for sensor_id, (name, emoji) in SENSOR_NAMES.items():
+        t = today.get('par_champ', {}).get(sensor_id, {})
+        y = yesterday.get('par_champ', {}).get(sensor_id) if yesterday else None
+
+        def get_trend(key, higher_is_worse=True):
+            tv = t.get(key)
+            yv = y.get(key) if y else None
+            if tv is None:
+                return '-', '', ''
+            arrow, color = _trend(tv, yv, higher_is_worse)
+            return tv, arrow, color
+
+        temp, t_arr, t_col = get_trend('temperature_moy', higher_is_worse=True)
+        hum, h_arr, h_col = get_trend('humidity_moy', higher_is_worse=False)
+        nit, n_arr, n_col = get_trend('nitrogen_moy', higher_is_worse=False)
+
+        rows.append({
+            'sensor_id': sensor_id,
+            'name': f"{emoji} {name}",
+            'temp': temp, 'temp_arrow': t_arr, 'temp_color': t_col,
+            'humidity': hum, 'humidity_arrow': h_arr, 'humidity_color': h_col,
+            'nitrogen': nit, 'nitrogen_arrow': n_arr, 'nitrogen_color': n_col,
+            'nb_alertes': t.get('nb_alertes', 0),
+            'no_yesterday': yesterday is None,
+        })
+    return rows
