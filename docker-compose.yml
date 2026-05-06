@@ -176,6 +176,20 @@ services:
     restart: on-failure
     networks: [smart-farm-net]
 
+  dashboard:
+    build:
+      context: ./dashboard
+    ports:
+      - "8050:8050"
+    environment:
+      MINIO_ENDPOINT: http://minio:9000
+      MINIO_ACCESS_KEY: ${MINIO_USER}
+      MINIO_SECRET_KEY: ${MINIO_PASSWORD}
+    depends_on:
+      - minio
+    restart: on-failure
+    networks: [smart-farm-net]
+
 volumes:
   minio_data:
   postgres_data:
