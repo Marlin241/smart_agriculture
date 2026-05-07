@@ -1,5 +1,6 @@
 kafka-python-ng==2.2.3
-pandas
-pyarrow
-minio
+pandas==2.2.2
+pyarrow==16.1.0
+minio==7.2.7
 pyspark==3.5.0
+pytest==8.2.0
