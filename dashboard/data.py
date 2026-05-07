@@ -8,10 +8,10 @@ import boto3
 import pandas as pd
 
 SENSOR_NAMES = {
-    'field_1': ('Blé', '🌾'),
-    'field_2': ('Maïs', '🌽'),
-    'field_3': ('Tournesol', '🌻'),
-    'field_4': ('Soja', '🌱'),
+    'field_1_ble': ('Blé', '🌾'),
+    'field_2_mais': ('Maïs', '🌽'),
+    'field_3_tournesol': ('Tournesol', '🌻'),
+    'field_4_soja': ('Soja', '🌱'),
 }
 
 ALERT_LABELS = {
@@ -136,7 +136,9 @@ def _trend(today_val, yesterday_val, higher_is_worse=True) -> tuple:
 
 
 def _s3_client():
-    endpoint = os.environ.get('MINIO_ENDPOINT', 'http://minio:9000')
+    # En Docker : MINIO_ENDPOINT=http://minio:9000 (injecté par docker-compose)
+    # En local  : défaut sur localhost:9000
+    endpoint = os.environ.get('MINIO_ENDPOINT', 'http://localhost:9000')
     return boto3.client(
         's3',
         endpoint_url=endpoint,
