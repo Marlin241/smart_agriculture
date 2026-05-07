@@ -9,7 +9,7 @@ WorldInfo {
 }
 Viewpoint {
   orientation 0.10878062969752399 -0.11851333501140454 -0.9869758680064497 4.784881854072265
-  position -1.5979482120443675 -16.02764333368782 2.8247223125893686
+  position -2.013915537123793 -20.877407042445775 3.910901451735154
 }
 TexturedBackground {
 }
@@ -30,9 +30,9 @@ DEF robot_field_2 Robot {
       children [
         Shape {
           appearance PBRAppearance {
-            baseColor 0 1 0
+            baseColor 1 1 0
             metalness 0
-            emissiveColor 0 1 0
+            emissiveColor 1 1 0
           }
           geometry Sphere {
             radius 0.2
@@ -81,9 +81,9 @@ DEF robot_field_1 Robot {
       children [
         Shape {
           appearance PBRAppearance {
-            baseColor 0 1 0
+            baseColor 1 1 0
             metalness 0
-            emissiveColor 0 1 0
+            emissiveColor 1 1 0
           }
           geometry Sphere {
             radius 0.2
@@ -132,9 +132,9 @@ DEF robot_field_3 Robot {
       children [
         Shape {
           appearance PBRAppearance {
-            baseColor 1 1 0
+            baseColor 0 1 0
             metalness 0
-            emissiveColor 1 1 0
+            emissiveColor 0 1 0
           }
           geometry Sphere {
             radius 0.2
@@ -183,9 +183,9 @@ DEF robot_field_4 Robot {
       children [
         Shape {
           appearance PBRAppearance {
-            baseColor 0 1 0
+            baseColor 0 0 1
             metalness 0
-            emissiveColor 0 1 0
+            emissiveColor 0 0 1
           }
           geometry Sphere {
             radius 0.2
@@ -282,7 +282,7 @@ DEF FIELD_4 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.45 0.35 0.25
+        baseColor 0.15 0.12 0.1
         baseColorMap ImageTexture {
           url [
             ""
@@ -304,7 +304,7 @@ Robot {
   supervisor TRUE
 }
 DEF PLANT_1_1 Solid {
-  translation 2 2.3383349999999927 0.30855
+  translation 2 2.3383349999999927 0.0005
   children [
     Shape {
       appearance PBRAppearance {
@@ -312,7 +312,7 @@ DEF PLANT_1_1 Solid {
         metalness 0
       }
       geometry Cylinder {
-        height 0.6171
+        height 0.001
         radius 0.01
       }
     }
@@ -320,7 +320,7 @@ DEF PLANT_1_1 Solid {
   name "solid(4)"
 }
 DEF PLANT_1_2 Solid {
-  translation 3 3 0.30855
+  translation 3 3 0.0005
   children [
     Shape {
       appearance PBRAppearance {
@@ -328,7 +328,7 @@ DEF PLANT_1_2 Solid {
         metalness 0
       }
       geometry Cylinder {
-        height 0.6171
+        height 0.001
         radius 0.01
       }
     }
@@ -336,7 +336,7 @@ DEF PLANT_1_2 Solid {
   name "solid(5)"
 }
 DEF PLANT_1_3 Solid {
-  translation 3 2 0.30855
+  translation 3 2 0.0005
   children [
     Shape {
       appearance PBRAppearance {
@@ -344,7 +344,7 @@ DEF PLANT_1_3 Solid {
         metalness 0
       }
       geometry Cylinder {
-        height 0.6171
+        height 0.001
         radius 0.01
       }
     }
@@ -352,7 +352,7 @@ DEF PLANT_1_3 Solid {
   name "solid(6)"
 }
 DEF PLANT_1_4 Solid {
-  translation 2 1.5 0.30855
+  translation 2 1.5 0.32999999999999996
   children [
     Shape {
       appearance PBRAppearance {
@@ -360,7 +360,7 @@ DEF PLANT_1_4 Solid {
         metalness 0
       }
       geometry Cylinder {
-        height 0.6171
+        height 0.6599999999999999
         radius 0.01
       }
     }
@@ -368,7 +368,7 @@ DEF PLANT_1_4 Solid {
   name "solid(7)"
 }
 DEF PLANT_1_5 Solid {
-  translation 3.5 2 0.30855
+  translation 3.5 2 0.32999999999999996
   children [
     Shape {
       appearance PBRAppearance {
@@ -376,7 +376,7 @@ DEF PLANT_1_5 Solid {
         metalness 0
       }
       geometry Cylinder {
-        height 0.6171
+        height 0.6599999999999999
         radius 0.01
       }
     }
@@ -384,7 +384,7 @@ DEF PLANT_1_5 Solid {
   name "solid(8)"
 }
 DEF PLANT_1_6 Solid {
-  translation 3.9 2 0.30855
+  translation 3.9 2 0.32999999999999996
   children [
     Shape {
       appearance PBRAppearance {
@@ -392,7 +392,7 @@ DEF PLANT_1_6 Solid {
         metalness 0
       }
       geometry Cylinder {
-        height 0.6171
+        height 0.6599999999999999
         radius 0.01
       }
     }
@@ -451,15 +451,15 @@ DEF PLANT_1_9 Solid {
   name "solid(12)"
 }
 DEF PLANT_2_1 Solid {
-  translation -4 2 0.07794
+  translation -4 2 0.0005
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.15588
+        height 0.001
         radius 0.01
       }
     }
@@ -467,15 +467,15 @@ DEF PLANT_2_1 Solid {
   name "solid(13)"
 }
 DEF PLANT_2_2 Solid {
-  translation -3.5 2.5 0.07794
+  translation -3.5 2.5 0.32999999999999996
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.15588
+        height 0.6599999999999999
         radius 0.01
       }
     }
@@ -483,15 +483,15 @@ DEF PLANT_2_2 Solid {
   name "solid(14)"
 }
 DEF PLANT_2_3 Solid {
-  translation -3.8 1.5 0.07794
+  translation -3.8 1.5 0.32999999999999996
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.15588
+        height 0.6599999999999999
         radius 0.01
       }
     }
@@ -499,15 +499,15 @@ DEF PLANT_2_3 Solid {
   name "solid(15)"
 }
 DEF PLANT_2_4 Solid {
-  translation -3.2 2.35135 0.07794
+  translation -3.2 2.35135 0.32999999999999996
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.15588
+        height 0.6599999999999999
         radius 0.01
       }
     }
@@ -515,15 +515,15 @@ DEF PLANT_2_4 Solid {
   name "solid(16)"
 }
 DEF PLANT_2_5 Solid {
-  translation -2.3 2 0.07794
+  translation -2.3 2 0.32999999999999996
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.15588
+        height 0.6599999999999999
         radius 0.01
       }
     }
@@ -531,15 +531,15 @@ DEF PLANT_2_5 Solid {
   name "solid(17)"
 }
 DEF PLANT_2_6 Solid {
-  translation -3.3 1.5 0.07794
+  translation -3.3 1.5 0.32999999999999996
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.15588
+        height 0.6599999999999999
         radius 0.01
       }
     }
@@ -598,15 +598,15 @@ DEF PLANT_2_9 Solid {
   name "solid(21)"
 }
 DEF PLANT_3_1 Solid {
-  translation -4 -3 0.32999999999999996
+  translation -4 -3 0.17994
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.92 0.82 0.04
+        baseColor 0.3 0.85 0.25
         metalness 0
       }
       geometry Cylinder {
-        height 0.6599999999999999
+        height 0.35988
         radius 0.01
       }
     }
@@ -614,15 +614,15 @@ DEF PLANT_3_1 Solid {
   name "solid(22)"
 }
 DEF PLANT_3_2 Solid {
-  translation -3 -3.2 0.32999999999999996
+  translation -3 -3.2 0.17994
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.92 0.82 0.04
+        baseColor 0.3 0.85 0.25
         metalness 0
       }
       geometry Cylinder {
-        height 0.6599999999999999
+        height 0.35988
         radius 0.01
       }
     }
@@ -630,15 +630,15 @@ DEF PLANT_3_2 Solid {
   name "solid(23)"
 }
 DEF PLANT_3_3 Solid {
-  translation -3.7 -3.8 0.32999999999999996
+  translation -3.7 -3.8 0.17994
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.92 0.82 0.04
+        baseColor 0.3 0.85 0.25
         metalness 0
       }
       geometry Cylinder {
-        height 0.6599999999999999
+        height 0.35988
         radius 0.01
       }
     }
@@ -646,15 +646,15 @@ DEF PLANT_3_3 Solid {
   name "solid(24)"
 }
 DEF PLANT_3_4 Solid {
-  translation -3.5 -3 0.32999999999999996
+  translation -3.5 -3 0.17994
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.92 0.82 0.04
+        baseColor 0.3 0.85 0.25
         metalness 0
       }
       geometry Cylinder {
-        height 0.6599999999999999
+        height 0.35988
         radius 0.01
       }
     }
@@ -662,15 +662,15 @@ DEF PLANT_3_4 Solid {
   name "solid(25)"
 }
 DEF PLANT_3_5 Solid {
-  translation -2.8 -4 0.32999999999999996
+  translation -2.8 -4 0.17994
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.92 0.82 0.04
+        baseColor 0.3 0.85 0.25
         metalness 0
       }
       geometry Cylinder {
-        height 0.6599999999999999
+        height 0.35988
         radius 0.01
       }
     }
@@ -678,15 +678,15 @@ DEF PLANT_3_5 Solid {
   name "solid(26)"
 }
 DEF PLANT_3_6 Solid {
-  translation -3.3 -4 0.32999999999999996
+  translation -3.3 -4 0.17994
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.92 0.82 0.04
+        baseColor 0.3 0.85 0.25
         metalness 0
       }
       geometry Cylinder {
-        height 0.6599999999999999
+        height 0.35988
         radius 0.01
       }
     }
@@ -745,15 +745,15 @@ DEF PLANT_3_9 Solid {
   name "solid(30)"
 }
 DEF PLANT_4_1 Solid {
-  translation 2 -3 0.08313000000000001
+  translation 2 -3 0.0005
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.16626000000000002
+        height 0.001
         radius 0.01
       }
     }
@@ -761,15 +761,15 @@ DEF PLANT_4_1 Solid {
   name "solid(31)"
 }
 DEF PLANT_4_2 Solid {
-  translation 2.5 -3.2 0.08313000000000001
+  translation 2.5 -3.2 0.0005
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.16626000000000002
+        height 0.001
         radius 0.01
       }
     }
@@ -777,15 +777,15 @@ DEF PLANT_4_2 Solid {
   name "solid(32)"
 }
 DEF PLANT_4_3 Solid {
-  translation 3 -3.6 0.08313000000000001
+  translation 3 -3.6 0.0005
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.16626000000000002
+        height 0.001
         radius 0.01
       }
     }
@@ -793,15 +793,15 @@ DEF PLANT_4_3 Solid {
   name "solid(33)"
 }
 DEF PLANT_4_4 Solid {
-  translation 3.6 -2.9 0.08313000000000001
+  translation 3.6 -2.9 0.0005
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.16626000000000002
+        height 0.001
         radius 0.01
       }
     }
@@ -809,15 +809,15 @@ DEF PLANT_4_4 Solid {
   name "solid(34)"
 }
 DEF PLANT_4_5 Solid {
-  translation 3 -2.5 0.08313000000000001
+  translation 3 -2.5 0.0005
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.16626000000000002
+        height 0.001
         radius 0.01
       }
     }
@@ -825,15 +825,15 @@ DEF PLANT_4_5 Solid {
   name "solid(35)"
 }
 DEF PLANT_4_6 Solid {
-  translation 4 -2 0.08313000000000001
+  translation 4 -2 0.0005
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.3 0.85 0.25
+        baseColor 0.92 0.82 0.04
         metalness 0
       }
       geometry Cylinder {
-        height 0.16626000000000002
+        height 0.001
         radius 0.01
       }
     }
