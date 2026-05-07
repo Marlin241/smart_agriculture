@@ -1,4 +1,4 @@
-from dash import html, dcc, callback, Input, Output, State
+from dash import html, dcc, Input, Output, State, ctx, ALL
 import plotly.graph_objects as go
 
 from data import build_field_cards, build_detail, NPK_THRESHOLDS, SENSOR_NAMES
@@ -51,7 +51,12 @@ def _npk_gauge(label: str, value: float, threshold: float) -> html.Div:
             html.Span(status_text, className=f'gauge-status gauge-{bar_color}'),
         ], className='gauge-header'),
         html.Div(
-            html.Div(style={'width': f'{pct:.0f}%', 'background': bar_color, 'height': '100%', 'borderRadius': '4px'}),
+            html.Div(style={
+                'width': f'{pct:.0f}%',
+                'background': '#27ae60' if ok else '#e74c3c',
+                'height': '100%',
+                'borderRadius': '4px',
+            }),
             className='gauge-bar',
         ),
     ], className='gauge')
@@ -59,35 +64,39 @@ def _npk_gauge(label: str, value: float, threshold: float) -> html.Div:
 
 def _detail_panel(detail: dict, sensor_id: str) -> html.Div:
     if not detail:
-        return html.Div('Sélectionnez un champ pour voir le détail.', className='detail-placeholder')
+        return html.Div(
+            'Sélectionnez un champ pour voir le détail.',
+            className='detail-placeholder',
+        )
 
     name, emoji = SENSOR_NAMES.get(sensor_id, (sensor_id, ''))
 
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=detail['timestamps'], y=detail['temperatures'],
-        name='Température (°C)', line={'color': 'tomato'},
+        name='Température (°C)', line={'color': '#e74c3c', 'width': 2},
     ))
     fig.add_trace(go.Scatter(
         x=detail['timestamps'], y=detail['humidities'],
-        name='Humidité (%)', line={'color': 'steelblue'},
+        name='Humidité (%)', line={'color': '#2980b9', 'width': 2},
         yaxis='y2',
     ))
     fig.update_layout(
-        margin={'t': 30, 'b': 30, 'l': 40, 'r': 40},
-        legend={'orientation': 'h'},
-        yaxis={'title': 'Température (°C)'},
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        margin={'t': 20, 'b': 30, 'l': 50, 'r': 60},
+        legend={'orientation': 'h', 'y': -0.2},
+        yaxis={'title': 'Temp. (°C)', 'gridcolor': '#eef0f3'},
         yaxis2={'title': 'Humidité (%)', 'overlaying': 'y', 'side': 'right'},
-        height=280,
+        height=260,
     )
-
-    stress_color = detail['stress_color']
-    stress_label = detail['stress_label']
 
     alert_items = [
         html.Li(f"{label} — {count} occurrence(s)")
         for label, count in detail['alert_counts'].items()
     ]
+
+    stress_color = detail['stress_color']
 
     return html.Div([
         html.H3(f"{emoji} {name} — Détail", className='detail-title'),
@@ -99,9 +108,14 @@ def _detail_panel(detail: dict, sensor_id: str) -> html.Div:
         ], className='npk-row'),
         html.Div([
             html.Span('Score de stress : ', className='stress-prefix'),
-            html.Span(f"{detail['stress_score']} / 100 — {stress_label}", className=f'stress-value stress-{stress_color}'),
+            html.Span(
+                f"{detail['stress_score']} / 100 — {detail['stress_label']}",
+                className=f'stress-value stress-{stress_color}',
+            ),
         ], className='stress-row'),
-        html.Ul(alert_items, className='detail-alerts') if alert_items else html.P('Aucune alerte active.', className='no-alert'),
+        (html.Ul(alert_items, className='detail-alerts')
+         if alert_items
+         else html.P('Aucune alerte active.', className='no-alert')),
     ], className='detail-panel')
 
 
@@ -150,18 +164,14 @@ def register_callbacks(app):
 
     @app.callback(
         Output('selected-field', 'data'),
-        Input({'type': 'field-card', 'index': '__all_smaller__'}, 'n_clicks'),
-        State({'type': 'field-card', 'index': '__all_smaller__'}, 'id'),
+        Input({'type': 'field-card', 'index': ALL}, 'n_clicks'),
+        State({'type': 'field-card', 'index': ALL}, 'id'),
         prevent_initial_call=True,
     )
     def select_field(n_clicks_list, ids):
-        from dash import ctx
-        if not ctx.triggered:
+        if not ctx.triggered_id or not isinstance(ctx.triggered_id, dict):
             return None
-        triggered_id = ctx.triggered_id
-        if triggered_id and isinstance(triggered_id, dict):
-            return triggered_id['index']
-        return None
+        return ctx.triggered_id['index']
 
     @app.callback(
         Output('detail-section', 'children'),
@@ -172,6 +182,9 @@ def register_callbacks(app):
         import pandas as pd
         df = pd.DataFrame(store_data) if store_data else pd.DataFrame()
         if not selected:
-            return html.Div('Cliquez sur un champ pour voir le détail.', className='detail-placeholder')
+            return html.Div(
+                'Cliquez sur un champ pour voir le détail.',
+                className='detail-placeholder',
+            )
         detail = build_detail(df, selected)
         return _detail_panel(detail, selected)

@@ -1,0 +1,344 @@
+/* ── Reset & base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f4f6f9;
+  color: #222;
+  font-size: 15px;
+}
+
+/* ── Navbar ───────────────────────────────────────────────── */
+.navbar {
+  display: flex;
+  align-items: center;
+  background: #1a6b3c;
+  padding: 0 20px;
+  height: 56px;
+  gap: 24px;
+}
+
+.nav-title {
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.nav-tabs {
+  flex: 1;
+}
+
+/* Override Dash tab styles inside navbar */
+.nav-tabs .tab--selected,
+.nav-tabs .tab {
+  background: transparent !important;
+  border: none !important;
+  color: rgba(255,255,255,0.75) !important;
+  font-size: 0.95rem;
+  padding: 16px 20px !important;
+}
+
+.nav-tabs .tab--selected {
+  color: #fff !important;
+  border-bottom: 3px solid #fff !important;
+}
+
+.nav-tabs .tabs--top {
+  border-bottom: none !important;
+  background: transparent !important;
+}
+
+.nav-countdown {
+  color: rgba(255,255,255,0.85);
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+
+/* ── Alert banner ─────────────────────────────────────────── */
+.alert-banner {
+  background: #c0392b;
+  color: #fff;
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* ── Cards grid ───────────────────────────────────────────── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 20px 24px 0;
+}
+
+/* ── Field card ───────────────────────────────────────────── */
+.field-card {
+  background: #fff;
+  border: 2px solid #e0e6ed;
+  border-radius: 10px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  user-select: none;
+}
+
+.field-card:hover {
+  border-color: #3498db;
+  box-shadow: 0 2px 12px rgba(52,152,219,0.15);
+}
+
+.field-card.selected {
+  border-color: #2980b9;
+  box-shadow: 0 0 0 3px rgba(41,128,185,0.25);
+}
+
+.field-card.no-data-card {
+  background: #f8f9fa;
+  cursor: default;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
+.card-metrics {
+  display: flex;
+  gap: 16px;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.card-stage {
+  font-size: 0.88rem;
+  color: #7f8c8d;
+  margin-bottom: 6px;
+}
+
+.card-alerts {
+  list-style: none;
+  padding: 0;
+  margin-top: 6px;
+}
+
+.card-alerts li {
+  font-size: 0.84rem;
+  color: #c0392b;
+  padding: 2px 0;
+}
+
+.no-data {
+  color: #95a5a6;
+  font-style: italic;
+  margin-top: 6px;
+}
+
+/* ── Badge ────────────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge-green  { background: #d5f5e3; color: #1e8449; }
+.badge-orange { background: #fef3cd; color: #b7770d; }
+.badge-red    { background: #fde8e8; color: #c0392b; }
+
+/* ── Detail panel ─────────────────────────────────────────── */
+.detail-section-wrap {
+  padding: 20px 24px;
+}
+
+#detail-section {
+  padding: 20px 24px;
+}
+
+.detail-placeholder {
+  color: #95a5a6;
+  font-style: italic;
+  padding: 20px 24px;
+}
+
+.detail-panel {
+  background: #fff;
+  border: 1px solid #e0e6ed;
+  border-radius: 10px;
+  padding: 20px 24px;
+}
+
+.detail-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 14px;
+}
+
+/* ── NPK gauges ───────────────────────────────────────────── */
+.npk-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.gauge {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.gauge-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.gauge-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #2c3e50;
+}
+
+.gauge-value {
+  font-size: 0.88rem;
+  color: #555;
+}
+
+.gauge-status {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.gauge-green { color: #1e8449; }
+.gauge-red   { color: #c0392b; }
+
+.gauge-bar {
+  height: 8px;
+  background: #e0e6ed;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* ── Stress row ───────────────────────────────────────────── */
+.stress-row {
+  margin: 12px 0 8px;
+  font-size: 0.95rem;
+}
+
+.stress-prefix { color: #555; }
+
+.stress-value { font-weight: 700; }
+
+.stress-green  { color: #1e8449; }
+.stress-orange { color: #b7770d; }
+.stress-red    { color: #c0392b; }
+
+/* ── Detail alerts ────────────────────────────────────────── */
+.detail-alerts {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.detail-alerts li {
+  padding: 5px 10px;
+  background: #fde8e8;
+  border-left: 3px solid #c0392b;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  font-size: 0.88rem;
+  color: #922b21;
+}
+
+.no-alert {
+  color: #1e8449;
+  font-size: 0.88rem;
+  margin-top: 8px;
+}
+
+/* ── Report page ──────────────────────────────────────────── */
+.report-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px 10px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.report-date { font-weight: 700; }
+
+.report-table {
+  width: calc(100% - 48px);
+  margin: 0 24px;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.report-table th {
+  background: #1a6b3c;
+  color: #fff;
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.report-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #eef0f3;
+  font-size: 0.92rem;
+}
+
+.report-table tr:last-child td { border-bottom: none; }
+
+.report-table tr:nth-child(even) td { background: #f8f9fa; }
+
+/* ── Alert summary pills ──────────────────────────────────── */
+.alert-summary {
+  padding: 14px 24px;
+}
+
+.alert-summary h4 {
+  font-size: 0.92rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.alert-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.alert-pill {
+  background: #fde8e8;
+  color: #922b21;
+  border-radius: 12px;
+  padding: 4px 12px;
+  font-size: 0.84rem;
+  font-weight: 500;
+}
+
+/* ── Note ─────────────────────────────────────────────────── */
+.note {
+  padding: 10px 24px;
+  color: #7f8c8d;
+  font-style: italic;
+  font-size: 0.88rem;
+}
