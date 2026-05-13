@@ -15,12 +15,16 @@ try:
     from kafka import KafkaProducer
     producer = KafkaProducer(
         bootstrap_servers='localhost:9092',
-        value_serializer=lambda v: json.dumps(v).encode('utf-8')
+        value_serializer=lambda v: json.dumps(v).encode('utf-8'),
+        request_timeout_ms=3000,   # abandonne après 3 s si Kafka ne répond pas
+        max_block_ms=3000,
     )
     KAFKA_ENABLED = True
     print(f"[{robot_name}] Kafka connecté sur localhost:9092")
+except ImportError:
+    print(f"[{robot_name}] kafka-python-ng absent — simulation continue sans streaming Kafka")
 except Exception as e:
-    print(f"[{robot_name}] Kafka non disponible: {e} — simulation continue sans streaming")
+    print(f"[{robot_name}] Kafka non disponible ({e}) — simulation continue sans streaming")
 
 fid = int(robot_name.split('_')[-1])
 

@@ -62,6 +62,32 @@ Projet académique simulant une exploitation agricole de 4 champs (Blé, Maïs, 
 
 > Webots est le seul outil qui s'installe sur la machine hôte. Tout le reste (Kafka, MinIO, Spark, Airflow, Dashboard) tourne dans Docker.
 
+### Connexion Webots → Kafka (streaming temps réel)
+
+La connexion de Webots vers Kafka est **optionnelle**. Si elle n'est pas configurée, la simulation tourne normalement et les données restent dans des fichiers locaux — le dashboard ne recevra pas de nouvelles données en temps réel, mais tout le reste fonctionne.
+
+Pour activer le streaming, il faut installer `kafka-python-ng` dans le Python **intégré à Webots** (différent du Python système) :
+
+**Windows**
+```powershell
+# Trouver le Python de Webots (chemin typique) :
+& "C:\Program Files\Webots\msys64\mingw64\bin\python3.exe" -m pip install kafka-python-ng
+```
+
+**macOS**
+```bash
+/Applications/Webots.app/Contents/MacOS/webots-python -m pip install kafka-python-ng
+```
+
+**Linux**
+```bash
+/usr/local/webots/bin/webots-python -m pip install kafka-python-ng
+```
+
+> Si l'installation échoue ou si Kafka n'est pas démarré, Webots affiche dans sa console :
+> `Kafka non disponible — simulation continue sans streaming`
+> C'est un message informatif, **pas une erreur bloquante**. La simulation continue normalement.
+
 ---
 
 ## Installation
@@ -253,3 +279,9 @@ smart_agriculture/
 
 **Webots : les robots ne bougent pas**
 → Vérifier que la simulation est bien lancée (bouton Play dans Webots, pas en pause)
+
+**Webots semble gelé quelques secondes au démarrage**
+→ Normal : le contrôleur tente de se connecter à Kafka (timeout de 3 s) puis continue. Aucune action requise.
+
+**La console Webots affiche "Kafka non disponible"**
+→ Message informatif uniquement — la simulation fonctionne sans Kafka. Pour activer le streaming, voir la section *Connexion Webots → Kafka* ci-dessus.
