@@ -14,13 +14,13 @@ producer = None
 try:
     from kafka import KafkaProducer
     producer = KafkaProducer(
-        bootstrap_servers='localhost:9092',
+        bootstrap_servers=os.environ.get('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092'),
         value_serializer=lambda v: json.dumps(v).encode('utf-8'),
         request_timeout_ms=3000,   # abandonne après 3 s si Kafka ne répond pas
         max_block_ms=3000,
     )
     KAFKA_ENABLED = True
-    print(f"[{robot_name}] Kafka connecté sur localhost:9092")
+    print(f"[{robot_name}] Kafka connecté sur {os.environ.get('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')}")
 except ImportError:
     print(f"[{robot_name}] kafka-python-ng absent — simulation continue sans streaming Kafka")
 except Exception as e:
