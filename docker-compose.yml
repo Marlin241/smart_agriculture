@@ -60,6 +60,18 @@ services:
       - minio_data:/data
     networks: [smart-farm-net]
 
+  webots:
+    build:
+      context: .
+      dockerfile: webots/Dockerfile
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    restart: on-failure
+    networks: [smart-farm-net]
+
   kafka-consumer:
     build:
       context: .
