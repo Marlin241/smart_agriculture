@@ -35,6 +35,12 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
     networks: [smart-farm-net]
+    healthcheck:
+      test: ["CMD", "kafka-broker-api-versions", "--bootstrap-server", "localhost:9092"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -58,6 +64,18 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - minio_data:/data
+    networks: [smart-farm-net]
+
+  webots:
+    build:
+      context: .
+      dockerfile: webots/Dockerfile
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    restart: on-failure
     networks: [smart-farm-net]
 
   kafka-consumer:
