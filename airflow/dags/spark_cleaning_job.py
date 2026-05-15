@@ -6,7 +6,7 @@ from airflow.providers.docker.operators.docker import DockerOperator
 
 with DAG(
     dag_id='spark_cleaning_job',
-    schedule_interval='@hourly',
+    schedule_interval='*/6 * * * *',
     start_date=datetime(2026, 1, 1),
     catchup=False,
     tags=['spark', 'cleaning'],
