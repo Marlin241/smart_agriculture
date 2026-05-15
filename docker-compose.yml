@@ -93,7 +93,7 @@ services:
       MINIO_ACCESS_KEY: ${MINIO_USER}
       MINIO_SECRET_KEY: ${MINIO_PASSWORD}
       MINIO_BUCKET_RAW: smart-farm-raw
-      FLUSH_INTERVAL_SECONDS: 300
+      FLUSH_INTERVAL_SECONDS: ${FLUSH_INTERVAL_SECONDS:-300}
     restart: on-failure
     networks: [smart-farm-net]
 
@@ -215,6 +215,7 @@ services:
       KAFKA_TOPIC: sensor_data
       MESSAGES_PER_SECOND: ${LOAD_MESSAGES_PER_SECOND:-1000}
       NUM_FIELDS: 4
+      NUM_THREADS: ${LOAD_NUM_THREADS:-4}
     restart: on-failure
     networks: [smart-farm-net]
 
