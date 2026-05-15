@@ -202,6 +202,22 @@ services:
     restart: on-failure
     networks: [smart-farm-net]
 
+  load-generator:
+    build:
+      context: .
+      dockerfile: kafka/load_generator/Dockerfile
+    profiles: ["load-test"]
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      KAFKA_TOPIC: sensor_data
+      MESSAGES_PER_SECOND: ${LOAD_MESSAGES_PER_SECOND:-1000}
+      NUM_FIELDS: 4
+    restart: on-failure
+    networks: [smart-farm-net]
+
   dashboard:
     build:
       context: ./dashboard
